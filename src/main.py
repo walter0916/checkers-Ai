@@ -1,6 +1,6 @@
 import pygame
 from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE
-from checkers.board import Board
+from checkers.game import Game
 
 FPS = 60
 
@@ -16,7 +16,7 @@ def get_row_col_from_mouse(pos):
 def main():
   run = True
   clock = pygame.time.Clock()
-  board = Board()
+  game = Game()
 
 
   while run:
@@ -31,8 +31,7 @@ def main():
         row, col = get_row_col_from_mouse(pos)
         piece = board.get_piece(row, col)
 
-    board.draw(WIN)
-    pygame.display.update()
+    game.update()
   
   pygame.quit()
 
