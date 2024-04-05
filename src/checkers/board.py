@@ -52,6 +52,10 @@ class Board:
         if piece != 0:
           piece.draw(win)
 
+  def remove(self, pieces):
+    for piece in pieces:
+      self.board[piece.row][piece.col] = 0
+
   def get_valid_moves(self, piece):
     moves = {}
     left = piece.col - 1
@@ -90,8 +94,8 @@ class Board:
           else:
             row = min(r+3, ROWS)
           
-          moves.update(self._traverse_left(r+step, row, step, color, left-1, skipped=last))
-          moves.update(self._traverse_right(r+step, row, step, color, left+1, skipped=last))
+          moves.update(self._transverse_left(r+step, row, step, color, left-1, skipped=last))
+          moves.update(self._transverse_right(r+step, row, step, color, left+1, skipped=last))
         break
 
       elif current.color == color:
@@ -125,8 +129,8 @@ class Board:
           else:
             row = min(r+3, ROWS)
           
-          moves.update(self._traverse_left(r+step, row, step, color, right-1, skipped=last))
-          moves.update(self._traverse_right(r+step, row, step, color, right+1, skipped=last))
+          moves.update(self._transverse_left(r+step, row, step, color, right-1, skipped=last))
+          moves.update(self._transverse_right(r+step, row, step, color, right+1, skipped=last))
         break
 
       elif current.color == color:
