@@ -61,6 +61,14 @@ class Board:
         else:
           self.white_left -= 1
 
+  def winner(self):
+    if self.red_left <= 0:
+      return WHITE
+    elif self.white_left <= 0:
+      return RED
+    
+    return None
+
   def get_valid_moves(self, piece):
     moves = {}
     left = piece.col - 1
