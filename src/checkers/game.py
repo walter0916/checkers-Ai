@@ -30,7 +30,7 @@ class Game:
       if not result:
         self.selected = None
         self.select(row, col)
-        
+
     piece = self.board.get_piece(row, col)
     if piece != 0 and piece.color ==self.turn:
       self.selected = piece
@@ -63,3 +63,11 @@ class Game:
       self.turn = WHITE
     else:
       self.turn = RED
+
+  def get_board(self):
+    return self.board
+  
+  def ai_moves(self, board):
+    self.board = board
+    self.change_turn()
+    
