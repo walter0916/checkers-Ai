@@ -25,6 +25,7 @@ class Board:
       for piece in row:
         if piece != 0 and piece.color == color:
           pieces.append(piece)
+    return pieces
 
   def move(self, piece, row, col):
     self.board[piece.row][piece.col], self.board[row][col]= self.board[row][col], self.board[piece.row][piece.col]
@@ -158,11 +159,11 @@ class Board:
             row = min(r+3, ROWS)
           
           if skipped:
-            moves.update(self._traverse_left(r+step, row, step, color, right-1, skipped=last+skipped))
-            moves.update(self._traverse_right(r+step, row, step, color, right+1, skipped=last+skipped))
+            moves.update(self._transverse_left(r+step, row, step, color, right-1, skipped=last+skipped))
+            moves.update(self._transverse_right(r+step, row, step, color, right+1, skipped=last+skipped))
           else:
-            moves.update(self._traverse_left(r+step, row, step, color, right-1, skipped=last))
-            moves.update(self._traverse_right(r+step, row, step, color, right+1, skipped=last))
+            moves.update(self._transverse_left(r+step, row, step, color, right-1, skipped=last))
+            moves.update(self._transverse_right(r+step, row, step, color, right+1, skipped=last))
         break
 
       elif current.color == color:
