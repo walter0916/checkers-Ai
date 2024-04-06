@@ -18,7 +18,6 @@ def main():
   run = True
   clock = pygame.time.Clock()
   game = Game(WIN)
-  board = Board()
 
 
   while run:
@@ -26,6 +25,7 @@ def main():
 
     if game.winner() != None:
       print(game.winner())
+      run = False
     
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
