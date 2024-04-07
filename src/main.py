@@ -18,12 +18,13 @@ def main():
   run = True
   clock = pygame.time.Clock()
   game = Game(WIN)
+  ai_gamemode = False
 
 
   while run:
     clock.tick(FPS)
 
-    if game.turn == WHITE:
+    if game.turn == WHITE and ai_gamemode:
       value, new_board = minimax(game.get_board(), 4 , WHITE, game)
       game.ai_move(new_board)
 
@@ -39,6 +40,11 @@ def main():
         pos = pygame.mouse.get_pos()
         row, col = get_row_col_from_mouse(pos)
         game.select(row, col)
+      
+      if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_g:
+          ai_gamemode = not ai_gamemode
+
 
     game.update()
   
