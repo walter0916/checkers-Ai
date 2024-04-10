@@ -63,26 +63,25 @@ def play():
   pygame.quit()
 
 def options():
-    global ai_gamemode
+  global ai_gamemode
 
-    while True:
-        formated_BG = pygame.transform.scale(BG, (WIDTH, HEIGHT))
+  while True:
+    formated_BG = pygame.transform.scale(BG, (WIDTH, HEIGHT))
 
-        WIN.blit(formated_BG, (0, 0))
+    WIN.blit(formated_BG, (0, 0))
+    OPTIONS_MOUSE_POS = pygame.mouse.get_pos()
 
-        OPTIONS_MOUSE_POS = pygame.mouse.get_pos()
+    OPTIONS_TEXT = get_font(45).render("SELECT GAME MODE", True, "Black")
+    OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(WIDTH // 2, HEIGHT // 4))
+    WIN.blit(OPTIONS_TEXT, OPTIONS_RECT)
 
-        OPTIONS_TEXT = get_font(45).render("SELECT GAME MODE", True, "Black")
-        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(WIDTH // 2, HEIGHT // 4))
-        WIN.blit(OPTIONS_TEXT, OPTIONS_RECT)
+    button_width = 30
+    button_height = 100
+    button_spacing = 20
+    button_x = (WIDTH - button_width) // 2
+    button_start_y = HEIGHT // 2
 
-        button_width = 30
-        button_height = 100
-        button_spacing = 20
-        button_x = (WIDTH - button_width) // 2
-        button_start_y = HEIGHT // 2
-
-        OPTIONS_BACK = Button(image=pygame.image.load("assets/Play Rect.png"), 
+    OPTIONS_BACK = Button(image=pygame.image.load("assets/Play Rect.png"), 
                               pos=(button_x, button_start_y),
                               text_input="BACK",
                               font=get_font(50),
@@ -90,89 +89,89 @@ def options():
                               hovering_color="White")
         
 
-        AI_GAMEMODE_BUTTON = Button(image=pygame.image.load("assets/Play Rect.png"),
+    AI_GAMEMODE_BUTTON = Button(image=pygame.image.load("assets/Play Rect.png"),
                               pos=(button_x, button_start_y + button_height + button_spacing),
                               text_input="AI",
                               font=get_font(50),
                               base_color="#d7fcd4",
                               hovering_color="White")
         
-        PVP_BUTTON = Button(image=pygame.image.load("assets/Play Rect.png"),
+    PVP_BUTTON = Button(image=pygame.image.load("assets/Play Rect.png"),
                               pos=(button_x, button_start_y + 2 * (button_height + button_spacing)),
                               text_input="PVP",
                               font=get_font(50),
                               base_color="#d7fcd4",
                               hovering_color="White")
 
-        for button in [AI_GAMEMODE_BUTTON, PVP_BUTTON, OPTIONS_BACK]:
-            button.changeColor(OPTIONS_MOUSE_POS)
-            button.update(WIN)
+    for button in [AI_GAMEMODE_BUTTON, PVP_BUTTON, OPTIONS_BACK]:
+      button.changeColor(OPTIONS_MOUSE_POS)
+      button.update(WIN)
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if OPTIONS_BACK.checkForInput(OPTIONS_MOUSE_POS):
-                    main_menu()
-                if AI_GAMEMODE_BUTTON.checkForInput(OPTIONS_MOUSE_POS):
-                    ai_gamemode = True
-                    play()
-                if PVP_BUTTON.checkForInput(OPTIONS_MOUSE_POS):
-                    ai_gamemode = False
-                    play()
+    for event in pygame.event.get():
+      if event.type == pygame.QUIT:
+        pygame.quit()
+        sys.exit()
+      if event.type == pygame.MOUSEBUTTONDOWN:
+        if OPTIONS_BACK.checkForInput(OPTIONS_MOUSE_POS):
+          main_menu()
+        if AI_GAMEMODE_BUTTON.checkForInput(OPTIONS_MOUSE_POS):
+          ai_gamemode = True
+          play()
+        if PVP_BUTTON.checkForInput(OPTIONS_MOUSE_POS):
+          ai_gamemode = False
+          play()
 
-        pygame.display.update()
+    pygame.display.update()
 
 
 def main_menu():
-    while True:
-        formated_BG = pygame.transform.scale(BG, (WIDTH, HEIGHT))
+  while True:
+    formated_BG = pygame.transform.scale(BG, (WIDTH, HEIGHT))
 
-        WIN.blit(formated_BG, (0, 0))
+    WIN.blit(formated_BG, (0, 0))
 
-        MENU_MOUSE_POS = pygame.mouse.get_pos()
+    MENU_MOUSE_POS = pygame.mouse.get_pos()
 
-        MENU_TEXT = get_font(100).render("CHECKERS", True, "#b68f40")
-        MENU_RECT = MENU_TEXT.get_rect(center=(WIDTH // 2, HEIGHT // 4))
+    MENU_TEXT = get_font(100).render("CHECKERS", True, "#b68f40")
+    MENU_RECT = MENU_TEXT.get_rect(center=(WIDTH // 2, HEIGHT // 4))
 
-        button_width = 30
-        button_height = 100
-        button_spacing = 20
-        button_x = (WIDTH - button_width) // 2
-        button_start_y = HEIGHT // 2
+    button_width = 30
+    button_height = 100
+    button_spacing = 20
+    button_x = (WIDTH - button_width) // 2
+    button_start_y = HEIGHT // 2
 
-        PLAY_BUTTON = Button(image=pygame.image.load("assets/Play Rect.png"),
+    PLAY_BUTTON = Button(image=pygame.image.load("assets/Play Rect.png"),
                               pos=(button_x, button_start_y),
                               text_input="PLAY",
                               font=get_font(50),
                               base_color="#d7fcd4",
                               hovering_color="White")
-        QUIT_BUTTON = Button(image=pygame.image.load("assets/Quit Rect.png"),
+    QUIT_BUTTON = Button(image=pygame.image.load("assets/Quit Rect.png"),
                               pos=(button_x, button_start_y + button_height + button_spacing),
                               text_input="QUIT",
                               font=get_font(50),
                               base_color="#d7fcd4",
                               hovering_color="White")
 
-        text_offset_x = MENU_RECT.width // 2
-        WIN.blit(MENU_TEXT, (MENU_RECT.centerx - text_offset_x, MENU_RECT.y))
+    text_offset_x = MENU_RECT.width // 2
+    WIN.blit(MENU_TEXT, (MENU_RECT.centerx - text_offset_x, MENU_RECT.y))
 
-        for button in [PLAY_BUTTON, QUIT_BUTTON]:
-            button.changeColor(MENU_MOUSE_POS)
-            button.update(WIN)
+    for button in [PLAY_BUTTON, QUIT_BUTTON]:
+      button.changeColor(MENU_MOUSE_POS)
+      button.update(WIN)
         
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    options()
-                if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    pygame.quit()
-                    sys.exit()
+    for event in pygame.event.get():
+      if event.type == pygame.QUIT:
+        pygame.quit()
+        sys.exit()
+      if event.type == pygame.MOUSEBUTTONDOWN:
+        if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
+          options()
+        if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
+          pygame.quit()
+          sys.exit()
 
-        pygame.display.update()
+    pygame.display.update()
 
 main_menu()
