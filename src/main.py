@@ -72,7 +72,7 @@ def options():
 
         OPTIONS_MOUSE_POS = pygame.mouse.get_pos()
 
-        OPTIONS_TEXT = get_font(45).render("OPTIONS", True, "Black")
+        OPTIONS_TEXT = get_font(45).render("SELECT GAME MODE", True, "Black")
         OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(WIDTH // 2, HEIGHT // 4))
         WIN.blit(OPTIONS_TEXT, OPTIONS_RECT)
 
@@ -117,8 +117,10 @@ def options():
                     main_menu()
                 if AI_GAMEMODE_BUTTON.checkForInput(OPTIONS_MOUSE_POS):
                     ai_gamemode = True
+                    play()
                 if PVP_BUTTON.checkForInput(OPTIONS_MOUSE_POS):
                     ai_gamemode = False
+                    play()
 
         pygame.display.update()
 
@@ -146,16 +148,8 @@ def main_menu():
                               font=get_font(50),
                               base_color="#d7fcd4",
                               hovering_color="White")
-        
-        OPTIONS_BUTTON = Button(image=pygame.image.load("assets/Play Rect.png"),
-                              pos=(button_x, button_start_y + button_height + button_spacing),
-                              text_input="OPTIONS",
-                              font=get_font(50),
-                              base_color="#d7fcd4",
-                              hovering_color="White")
-
         QUIT_BUTTON = Button(image=pygame.image.load("assets/Quit Rect.png"),
-                              pos=(button_x, button_start_y + 2 * (button_height + button_spacing)),
+                              pos=(button_x, button_start_y + button_height + button_spacing),
                               text_input="QUIT",
                               font=get_font(50),
                               base_color="#d7fcd4",
@@ -164,7 +158,7 @@ def main_menu():
         text_offset_x = MENU_RECT.width // 2
         WIN.blit(MENU_TEXT, (MENU_RECT.centerx - text_offset_x, MENU_RECT.y))
 
-        for button in [PLAY_BUTTON, OPTIONS_BUTTON, QUIT_BUTTON]:
+        for button in [PLAY_BUTTON, QUIT_BUTTON]:
             button.changeColor(MENU_MOUSE_POS)
             button.update(WIN)
         
@@ -174,8 +168,6 @@ def main_menu():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    play()
-                if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
                     options()
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     pygame.quit()
