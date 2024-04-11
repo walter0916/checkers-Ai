@@ -6,7 +6,7 @@ RED = (255, 0, 0)
 WHITE = (255, 255, 255)
 
 def minimax(position, depth, alpha, beta, max_player, game):
-  if depth == 0 or position.winner() is not None:
+  if depth == 0 or position.winner(game.turn) is not None:
     return position.evaluate(position, game), None
 
   if max_player:

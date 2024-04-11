@@ -102,13 +102,24 @@ class Board:
         else:
           self.white_left -= 1
 
-  def winner(self):
+  def winner(self, turn):
     if self.red_left <= 0:
       return WHITE
     elif self.white_left <= 0:
       return RED
+    elif not self._has_valid_moves(turn):  
+      if turn == RED:  
+        return WHITE
+      else:  
+        return RED
     
     return None
+  
+  def _has_valid_moves(self, color):
+    for piece in self.get_all_pieces(color):
+        if self.get_valid_moves(piece):
+            return True
+    return False
 
   def get_valid_moves(self, piece):
     moves = {}

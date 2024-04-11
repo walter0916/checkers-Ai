@@ -42,7 +42,6 @@ def play():
       game.ai_move(new_board)
 
     if game.winner() != None:
-      print(game.winner())
       run = False
       main_menu()
     
