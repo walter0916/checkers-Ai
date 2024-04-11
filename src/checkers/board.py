@@ -1,6 +1,7 @@
 import pygame
 from .constants import BLACK, ROWS,COLS, RED, SQUARE_SIZE, WHITE
 from .piece import Piece
+from minimax.algorithm import get_all_moves
 
 class Board:
   def __init__(self):
@@ -16,8 +17,36 @@ class Board:
       for col in range(row % 2, COLS, 2):
         pygame.draw.rect(win, RED, (row * SQUARE_SIZE, col * SQUARE_SIZE, SQUARE_SIZE,SQUARE_SIZE))
   
-  def evaluate(self):
-    return self.white_left - self.red_left + (self.white_kings * 0.5 - self.red_kings * 0.5)
+  def evaluate(self, board, game):
+    white_mobility = len(get_all_moves(board, WHITE, game))
+    red_mobility = len(get_all_moves(board, RED, game))
+    mobility_score = white_mobility - red_mobility
+
+    white_pieces = len(board.get_all_pieces(WHITE))
+    red_pieces = len(board.get_all_pieces(RED))
+    piece_count_score = white_pieces - red_pieces
+
+    white_kings = sum(piece.king for piece in board.get_all_pieces(WHITE))
+    red_kings = sum(piece.king for piece in board.get_all_pieces(RED))
+    king_count_score = (white_kings * 0.5) - (red_kings * 0.5)
+
+    white_advancement = sum(piece.row / 7 for piece in board.get_all_pieces(WHITE))
+    red_advancement = sum((7 - piece.row) / 7 for piece in board.get_all_pieces(RED))
+    king_advancement_score = white_advancement - red_advancement
+
+    white_center_control = sum(1 for piece in board.get_all_pieces(WHITE) if 2 <= piece.col <= 5)
+    red_center_control = sum(1 for piece in board.get_all_pieces(RED) if 2 <= piece.col <= 5)
+    center_control_score = white_center_control - red_center_control
+
+    score = (
+        mobility_score * 1 +
+        piece_count_score * 2 +
+        king_count_score * 3 +
+        king_advancement_score * 1 +
+        center_control_score * 2
+    )
+
+    return score
 
   def get_all_pieces(self, color):
     pieces = []
@@ -91,7 +120,7 @@ class Board:
       moves.update(self._transverse_left(row - 1, max(row-3, -1), -1, piece.color, left))
       moves.update(self._transverse_right(row - 1, max(row-3, -1), -1, piece.color, right))
 
-    elif piece.color == WHITE or piece.king:
+    if piece.color == WHITE or piece.king:
       moves.update(self._transverse_left(row + 1, min(row+3, ROWS), 1, piece.color, left))
       moves.update(self._transverse_right(row + 1, min(row+3, ROWS), 1, piece.color, right))
     

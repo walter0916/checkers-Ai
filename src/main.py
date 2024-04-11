@@ -36,12 +36,15 @@ def play():
     clock.tick(FPS)
 
     if game.turn == WHITE and ai_gamemode:
-      value, new_board = minimax(game.get_board(), 4 , WHITE, game)
+      alpha = float('-inf')
+      beta = float('inf')
+      value, new_board = minimax(game.get_board(), 3 ,alpha, beta, WHITE, game)
       game.ai_move(new_board)
 
     if game.winner() != None:
       print(game.winner())
       run = False
+      main_menu()
     
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
