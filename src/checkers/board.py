@@ -104,14 +104,14 @@ class Board:
 
   def winner(self, turn):
     if self.red_left <= 0:
-      return WHITE
+      return "White"
     elif self.white_left <= 0:
-      return RED
+      return "Red"
     elif not self._has_valid_moves(turn):  
       if turn == RED:  
-        return WHITE
+        return "White"
       else:  
-        return RED
+        return "Red"
     
     return None
   

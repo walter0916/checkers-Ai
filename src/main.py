@@ -43,7 +43,8 @@ def play():
 
     if game.winner() != None:
       run = False
-      main_menu()
+      winner = game.winner()
+      game_over_screen(winner)
     
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
@@ -122,6 +123,59 @@ def options():
         if PVP_BUTTON.checkForInput(OPTIONS_MOUSE_POS):
           ai_gamemode = False
           play()
+
+    pygame.display.update()
+
+def game_over_screen(winner):
+  while True:
+    formated_BG = pygame.transform.scale(BG, (WIDTH, HEIGHT))
+
+    WIN.blit(formated_BG, (0, 0))
+
+    MENU_MOUSE_POS = pygame.mouse.get_pos()
+
+    MENU_TEXT = get_font(70).render("Game Over!", True, "#b68f40")
+    MENU_RECT = MENU_TEXT.get_rect(center=(WIDTH // 2, HEIGHT // 4))
+
+    winner_text = get_font(30).render(f"{winner} is the winner", True, "#b68f40")
+    winner_rect = winner_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+
+    button_width = 30
+    button_height = 100
+    button_spacing = 20
+    button_x = (WIDTH - button_width) // 2
+    button_start_y = HEIGHT * 3 // 4
+
+    PLAY_AGAIN_BUTTON = Button(image=pygame.image.load("assets/Play Rect.png"),
+                                    pos=(button_x, button_start_y),
+                                    text_input="Play Again",
+                                    font=get_font(30),
+                                    base_color="#d7fcd4",
+                                    hovering_color="White")
+    QUIT_BUTTON = Button(image=pygame.image.load("assets/Quit Rect.png"),
+                                pos=(button_x, button_start_y + button_height + button_spacing),
+                                text_input="Quit",
+                                font=get_font(30),
+                                base_color="#d7fcd4",
+                                hovering_color="White")
+
+    WIN.blit(MENU_TEXT, (MENU_RECT.centerx - MENU_RECT.width // 2, MENU_RECT.y))
+    WIN.blit(winner_text, (winner_rect.centerx - winner_rect.width // 2, winner_rect.y))
+
+    for button in [PLAY_AGAIN_BUTTON, QUIT_BUTTON]:
+      button.changeColor(MENU_MOUSE_POS)
+      button.update(WIN)
+
+    for event in pygame.event.get():
+      if event.type == pygame.QUIT:
+        pygame.quit()
+        sys.exit()
+      if event.type == pygame.MOUSEBUTTONDOWN:
+        if PLAY_AGAIN_BUTTON.checkForInput(MENU_MOUSE_POS):
+          options()
+        if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
+          pygame.quit()
+          sys.exit()
 
     pygame.display.update()
 
