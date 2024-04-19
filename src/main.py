@@ -42,8 +42,8 @@ def play():
       game.ai_move(new_board)
 
     if game.winner() != None:
-      run = False
       winner = game.winner()
+      run = False
       game_over_screen(winner)
     
     for event in pygame.event.get():
@@ -94,7 +94,7 @@ def options():
 
     AI_GAMEMODE_BUTTON = Button(image=pygame.image.load("assets/Play Rect.png"),
                               pos=(button_x, button_start_y + button_height + button_spacing),
-                              text_input="AI",
+                              text_input="COMPUTER",
                               font=get_font(50),
                               base_color="#d7fcd4",
                               hovering_color="White")
